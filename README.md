@@ -38,6 +38,7 @@ md-toc-go tree                 # write the tree into ./README.md
 md-toc-go tree docs            # scan docs/, write into docs/README.md
 md-toc-go tree --target INDEX.md
 md-toc-go tree --dry-run       # print the result instead of writing it
+md-toc-go tree --check         # don't write, exit 1 if target is out of date
 ```
 
 The tree is written between these markers, which the tool owns and replaces on every run:

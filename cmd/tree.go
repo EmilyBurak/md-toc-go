@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"errors"
+	"fmt"
 	"os"
 	"path/filepath"
 
@@ -12,6 +13,7 @@ import (
 
 var target string
 var dryRun bool
+var check bool
 
 var treeCmd = &cobra.Command{
 	Use:   "tree [dir]",
@@ -33,23 +35,29 @@ twice produces the same file, so it is safe in a pre-commit hook.
 
 Link text is each note's first H1, falling back to its filename. A
 directory that contains a README.md links to it instead of listing it.
-The target file is never listed in its own tree.`,
+The target file is never listed in its own tree.
+
+--dry run prints the result to stdout instead of writing it. 
+--check does not write and exits 1 if the target is
+out of date, for CI purposes. These are mutually exclusive.`,
 	Example: `  md-toc-go tree
   md-toc-go tree docs --target docs/INDEX.md
-  md-toc-go tree --dry-run`,
+  md-toc-go tree --dry-run
+  md-toc-go tree --check`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		dir := "."
+		dst := target
 		if len(args) == 1 {
 			dir = args[0]
 		}
-		if target == "" {
-			target = filepath.Join(dir, "README.md")
+		if dst == "" {
+			dst = filepath.Join(dir, "README.md")
 		}
 		paths, err := notes.ListMarkdown(dir)
 		if err != nil {
 			return err
 		}
-		relTarget, err := filepath.Rel(dir, target)
+		relTarget, err := filepath.Rel(dir, dst)
 		if err != nil {
 			return err
 		}
@@ -59,20 +67,26 @@ The target file is never listed in its own tree.`,
 		}
 		root := tree.Build(paths, relTarget, titleFn)
 		block := tree.Render(root)
-		contents, err := os.ReadFile(target)
+		contents, err := os.ReadFile(dst)
 		if errors.Is(err, os.ErrNotExist) {
 			contents = []byte{}
 		} else if err != nil {
 			return err
 		}
 		finalDoc := tree.Splice(string(contents), block)
+		if check {
+			if finalDoc == string(contents) {
+				return nil
+			}
+			return fmt.Errorf("%s is out of date", dst)
+		}
 		if dryRun {
 			_, err := os.Stdout.WriteString(finalDoc)
 			if err != nil {
 				return err
 			}
 		} else {
-			err = os.WriteFile(target, []byte(finalDoc), 0o644)
+			err = os.WriteFile(dst, []byte(finalDoc), 0o644)
 			if err != nil {
 				return err
 			}
@@ -84,5 +98,7 @@ The target file is never listed in its own tree.`,
 func init() {
 	treeCmd.Flags().StringVar(&target, "target", "", "file to write the tree into (default: <dir>/README.md)")
 	treeCmd.Flags().BoolVar(&dryRun, "dry-run", false, "print the resulting file to stdout instead of writing it")
+	treeCmd.Flags().BoolVar(&check, "check", false, "exit 1 if the target is out of date, without writing")
+	treeCmd.MarkFlagsMutuallyExclusive("check", "dry-run")
 	rootCmd.AddCommand(treeCmd)
 }
