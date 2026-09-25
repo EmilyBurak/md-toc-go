@@ -1,0 +1,7 @@
+- id: md-toc-tree
+  name: md-toc-go tree
+  description: Regenerates a Markdown file tree between markers in README.md
+  entry: md-toc-go tree
+  language: golang
+  pass_filenames: false
+  always_run: true
