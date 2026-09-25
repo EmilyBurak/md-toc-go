@@ -1,4 +1,4 @@
-# md-toc-go
+# md-toc-go domain glossary
 
 A command-line tool that writes navigational Markdown (a notes index today, a table of contents later) into Markdown files inside a git repository.
 
