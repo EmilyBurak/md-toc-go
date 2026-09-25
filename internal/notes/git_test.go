@@ -5,6 +5,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"slices"
+	"strings"
 	"testing"
 )
 
@@ -67,6 +68,9 @@ func TestListMarkdownNotARepo(t *testing.T) {
 	got, err := ListMarkdown(dir)
 	if err == nil {
 		t.Fatalf("expected an error outside a git repo, got nil (paths %q)", got)
+	}
+	if !strings.Contains(err.Error(), "not a git repository") {
+		t.Fatalf("error should carry git's stderr, got: %v", err)
 	}
 }
 
