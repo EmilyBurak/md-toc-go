@@ -7,7 +7,7 @@
 - [md-toc-go domain glossary](CONTEXT.md)
 <!-- md-toc-go:tree:end -->
 
-A Go project with opinionated defaults to generate Markdown tables of contents and file trees for git repositories.
+A Go project with opinionated defaults(see [docs/adr](docs/adr/) for design decisions) to generate Markdown tables of contents and file trees for git repositories.
 
 Inspired by [doctoc](https://github.com/thlorenz/doctoc), [tre](https://github.com/dduan/tre) and [markdown-notes-tree](https://github.com/mistermicheels/markdown-notes-tree)
 
