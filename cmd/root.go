@@ -20,6 +20,10 @@ appear. Run it from inside a repository.`,
 	SilenceUsage: true,
 }
 
+func SetVersion(v string) {
+	rootCmd.Version = v
+}
+
 // Execute runs the CLI. Cobra prints the error itself, so this only sets
 // the exit status.
 func Execute() {

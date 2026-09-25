@@ -3,8 +3,20 @@
 // the CLI.
 package main
 
-import "github.com/EmilyBurak/md-toc-go/cmd"
+import (
+	"runtime/debug"
+
+	"github.com/EmilyBurak/md-toc-go/cmd"
+)
+
+var version = "dev"
 
 func main() {
+	if version == "dev" {
+		if info, ok := debug.ReadBuildInfo(); ok && info.Main.Version != "(devel)" && info.Main.Version != "" {
+			version = info.Main.Version
+		}
+	}
+	cmd.SetVersion(version)
 	cmd.Execute()
 }
