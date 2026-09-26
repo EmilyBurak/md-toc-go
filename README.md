@@ -64,3 +64,7 @@ Design happens before code. Each feature starts with a grilling session that set
 - [docs/plans](docs/plans/): agreed designs for features not yet built.
 
 These artifacts and the workflow that produces them come from [Matt Pocock's engineering skills](https://github.com/mattpocock/skills) for Claude Code.
+
+## License
+
+[MIT](LICENSE)
