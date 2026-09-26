@@ -4,6 +4,8 @@
 - docs/
   - adr/
     - [Git decides which files are Notes](docs/adr/0001-git-decides-inclusion.md)
+  - plans/
+    - [Table of Contents design](docs/plans/2026-09-25-toc-design.md)
 - [md-toc-go domain glossary](CONTEXT.md)
 <!-- md-toc-go:tree:end -->
 
@@ -50,3 +52,15 @@ The tree is written between these markers, which the tool owns and replaces on e
 ```
 
 If the markers are missing they are inserted after the file's leading H1, or at the top when there is none. The block at the top of this README is generated this way.
+
+## Development
+
+This project is a learning exercise in test-driven development with an AI pair. [Claude Code](https://claude.com/claude-code) is used as a guide rather than a code generator: it walks through each red-green cycle and reviews the result, while the source and tests are written by hand. The few exceptions are documentation edits such as the Install and Usage sections above.
+
+Design happens before code. Each feature starts with a grilling session that settles the open questions, and the answers are recorded before any test is written:
+
+- [CONTEXT.md](CONTEXT.md): the domain glossary. Code and docs use these terms and avoid the listed alternatives.
+- [docs/adr](docs/adr/): architecture decision records for choices that are hard to reverse.
+- [docs/plans](docs/plans/): agreed designs for features not yet built.
+
+These artifacts and the workflow that produces them come from [Matt Pocock's engineering skills](https://github.com/mattpocock/skills) for Claude Code.
