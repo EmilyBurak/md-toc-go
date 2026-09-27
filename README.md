@@ -5,11 +5,12 @@
   - adr/
     - [Git decides which files are Notes](docs/adr/0001-git-decides-inclusion.md)
   - plans/
+    - [md-toc-go MVP: file tree generation](docs/plans/2026-09-01-tree-mvp-design.md)
     - [Table of Contents design](docs/plans/2026-09-25-toc-design.md)
 - [md-toc-go domain glossary](CONTEXT.md)
 <!-- md-toc-go:tree:end -->
 
-A Go project with opinionated defaults(see [docs/adr](docs/adr/) for design decisions) to generate Markdown tables of contents and file trees for git repositories.
+A Go project with opinionated defaults(see [docs/adr](docs/adr/) for design decisions) to generate Markdown tables of contents and file trees for git repositories. 
 
 Inspired by [doctoc](https://github.com/thlorenz/doctoc), [tre](https://github.com/dduan/tre) and [markdown-notes-tree](https://github.com/mistermicheels/markdown-notes-tree)
 
@@ -64,6 +65,8 @@ Design happens before code. Each feature starts with a grilling session that set
 - [docs/plans](docs/plans/): agreed designs for features not yet built.
 
 These artifacts and the workflow that produces them come from [Matt Pocock's engineering skills](https://github.com/mattpocock/skills) for Claude Code.
+
+Every PR and push to `main` runs tests and `golangci-lint` through GitHub Actions. Pushing a `v*` tag runs the same checks and then [GoReleaser](https://goreleaser.com/) builds the release archives.
 
 ## License
 
